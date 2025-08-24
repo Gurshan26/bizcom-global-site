@@ -2,6 +2,7 @@ import ParallaxHero from "@/components/ParallaxHero";
 import LogosMarquee from "@/components/LogosMarquee";
 import ValueTriplet from "@/components/ValueTriplet";
 import FeatureRow from "@/components/FeatureRow";
+import MagneticButton from "@/components/MagneticButton";
 
 const brandsRow1 = [
   "Texas Instruments",
@@ -65,12 +66,9 @@ export default function HomePage() {
                   Our team will respond within one business day.
                 </p>
               </div>
-              <a
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-brand-gold px-6 py-3 font-medium text-brand-navy shadow-lg transition-transform hover:-translate-y-0.5"
-              >
+              <MagneticButton href="/contact" className="btn-shine">
                 Contact Sales →
-              </a>
+              </MagneticButton>
             </div>
           </div>
         </div>

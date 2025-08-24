@@ -18,18 +18,26 @@ export default function FeatureRow({ title, body, cta, reverse }: Props) {
           reverse ? "lg:[&>*:first-child]:order-2" : ""
         }`}
       >
+        {/* Image placeholder with gentle zoom */}
         <motion.div
-          initial={{ opacity: 0, x: reverse ? 60 : -60 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, x: reverse ? 60 : -60, scale: 0.98 }}
+          whileInView={{ opacity: 1, x: 0, scale: 1 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
           className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl bg-gradient-to-br from-brand-navy/15 via-brand-slate/20 to-white/30"
         >
-          <div className="absolute inset-0 grid place-items-center text-brand-navy/50">
+          <motion.div
+            initial={{ scale: 1 }}
+            whileInView={{ scale: 1.04 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 2.5, ease: "easeOut" }}
+            className="absolute inset-0 grid place-items-center text-brand-navy/50"
+          >
             Image here
-          </div>
+          </motion.div>
         </motion.div>
 
+        {/* Copy */}
         <motion.div
           initial={{ opacity: 0, x: reverse ? -60 : 60 }}
           whileInView={{ opacity: 1, x: 0 }}

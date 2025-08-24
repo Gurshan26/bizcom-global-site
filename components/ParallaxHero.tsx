@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import AnimatedHeadline from "@/components/AnimatedHeadline";
+import MagneticButton from "@/components/MagneticButton";
 
 export default function ParallaxHero() {
   return (
@@ -26,9 +28,9 @@ export default function ParallaxHero() {
       {/* Content */}
       <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col items-center justify-center px-6 text-center">
         <span className="eyebrow text-white/80">Global Technology Distribution</span>
-        <h1 className="mt-4 font-display text-4xl leading-tight text-white sm:text-5xl md:text-6xl">
-          Components, programs, and logistics—done right.
-        </h1>
+
+        <AnimatedHeadline text="Components, programs, and logistics—done right." />
+
         <p className="mt-5 max-w-2xl text-balance text-white/85">
           BizCom Global helps OEMs and CEMs move faster with reliable sourcing,
           anti-counterfeit controls, and responsive support across APAC, EMEA,
@@ -36,12 +38,9 @@ export default function ParallaxHero() {
         </p>
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href="/line-card"
-            className="rounded-full bg-brand-gold px-6 py-3 font-medium text-brand-navy shadow-lg transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70"
-          >
+          <MagneticButton href="/line-card" className="btn-shine">
             View Line Card
-          </Link>
+          </MagneticButton>
           <Link
             href="/contact"
             className="link rounded-full border border-white/30 px-6 py-3 text-white/90 backdrop-blur-sm"

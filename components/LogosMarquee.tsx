@@ -36,7 +36,6 @@ const LogoCard: React.FC<{ item: LogoItem }> = ({ item }) => {
                      group-hover:scale-[1.02]"
         />
       ) : (
-        /* Placeholder block until you drop real logos */
         <div
           className="h-10 w-40 rounded bg-black/5 opacity-70 transition
                      group-hover:opacity-100 group-hover:scale-[1.02]"
@@ -87,7 +86,7 @@ export default function LogosMarquee({
       <div className="container-page mb-4 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span className="eyebrow text-brand-slate">{title}</span>
-          <div className="hidden sm:flex items-center gap-1 opacity-80">
+          <div className="hidden sm:flex items-center gap-1 opacity-80" aria-hidden>
             <span className="h-1 w-1 rounded-full bg-brand-gold/80" />
             <span className="h-1 w-1 rounded-full bg-brand-gold/70" />
             <span className="h-1 w-1 rounded-full bg-brand-gold/60" />

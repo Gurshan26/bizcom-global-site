@@ -1,6 +1,7 @@
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import ProgressBar from "@/components/ProgressBar";
 import { Inter, Montserrat, Playfair_Display } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -18,9 +19,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${inter.variable} ${montserrat.variable} ${playfair.variable}`}>
       <body className="font-sans text-[15px] text-slate-800 antialiased bg-white">
         <Nav />
-        
-        {/* remove container wrapper, let each page control layout */}
+        {/* subtle scroll progress */}
+        <ProgressBar />
+
+        {/* each page controls its own layout */}
         <main>{children}</main>
+
         <Footer />
       </body>
     </html>

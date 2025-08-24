@@ -30,13 +30,10 @@ export default function ValueTriplet() {
               key={it.title}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ rotateX: 1.2, rotateY: -1.2, y: -4 }}
               viewport={{ once: true }}
-              transition={{
-                delay: i * 0.08,
-                duration: 0.55,
-                ease: [0.25, 1, 0.5, 1],
-              }}
-              className="group rounded-2xl border border-black/10 bg-white p-6 shadow-sm"
+              transition={{ duration: 0.55, ease: [0.25, 1, 0.5, 1] }}
+              className="group rounded-2xl border border-black/10 bg-white p-6 shadow-sm will-change-transform [transform-style:preserve-3d]"
             >
               <h3 className="h3">{it.title}</h3>
               <p className="mt-2 text-sm text-brand-navy/80">{it.body}</p>

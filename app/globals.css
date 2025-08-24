@@ -46,7 +46,12 @@
 @layer utilities {
   .animate-marquee { animation: marquee-x var(--marquee-duration,30s) linear infinite; }
   .animate-marquee-reverse { animation: marquee-x-reverse var(--marquee-duration,30s) linear infinite; }
-  .mask-fade { mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent); }
+
+  /* Safari+Chrome mask fade for rails */
+  .mask-fade {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
 
   /* Full-bleed helper for sections that must span the viewport width */
   .full-bleed {
@@ -54,15 +59,51 @@
     margin-left: 50%;
     transform: translateX(-50%);
   }
-  
- /* Subtle tech grid background (reduced density) */
-.bg-tech-grid {
-  background-image:
-    linear-gradient(to right, rgba(10,25,47,.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(10,25,47,.035) 1px, transparent 1px);
-  background-size: 120px 120px, 120px 120px; /* was 56px -> fewer lines */
-}
+
+  /* Subtle tech grid background (reduced density) */
+  .bg-tech-grid {
+    background-image:
+      linear-gradient(to right, rgba(10,25,47,.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10,25,47,.035) 1px, transparent 1px);
+    background-size: 120px 120px, 120px 120px; /* fewer lines */
+  }
   .bg-tech-grid-fade {
     mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
   }
+
+  /* Button gold shine */
+  .btn-shine { position: relative; overflow: hidden; }
+  .btn-shine::after {
+    content: ""; position: absolute; inset: -200% -50%;
+    background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.45) 50%, transparent 60%);
+    transform: translateX(-100%);
+  }
+  .btn-shine:hover::after { animation: shine-sweep .9s ease-out; }
+}
+
+/* keyframes used by shine + dots + reduced motion */
+@keyframes shine-sweep { to { transform: translateX(100%); } }
+
+/* Reduced motion for marquee loops */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Progress dots (LogosMarquee eyebrow) */
+.progress-dot {
+  --d: 30s; /* overridden inline */
+  height: 6px; width: 6px; border-radius: 9999px;
+  background: rgba(201,162,39,.35); /* brand gold, low emphasis */
+  animation: dot-fill var(--d) linear infinite;
+}
+.progress-dot:nth-child(2) { animation-delay: calc(var(--d) / 3); }
+.progress-dot:nth-child(3) { animation-delay: calc(2 * var(--d) / 3); }
+
+@keyframes dot-fill {
+  0%, 72%   { opacity: .35; transform: scale(.9); }
+  80%, 100% { opacity: 1; transform: scale(1); background: rgba(201,162,39,.9); }
 }
