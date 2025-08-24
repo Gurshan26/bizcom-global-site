@@ -5,7 +5,29 @@ import Link from "next/link";
 import AnimatedHeadline from "@/components/AnimatedHeadline";
 import MagneticButton from "@/components/MagneticButton";
 
-export default function ParallaxHero() {
+/**
+ * Reusable ParallaxHero with typed, optional props.
+ * Defaults reproduce the current Home hero so existing usage doesn’t break.
+ */
+type Props = {
+  eyebrow?: string;
+  headline?: string;
+  subcopy?: string;
+  primaryCtaHref?: string;
+  primaryCtaLabel?: string;
+  secondaryCtaHref?: string;
+  secondaryCtaLabel?: string;
+};
+
+export default function ParallaxHero({
+  eyebrow = "Global Technology Distribution",
+  headline = "Components, programs, and logistics—done right.",
+  subcopy = "BizCom Global helps OEMs and CEMs move faster with reliable sourcing, anti-counterfeit controls, and responsive support across APAC, EMEA, and the Americas.",
+  primaryCtaHref = "/line-card",
+  primaryCtaLabel = "View Line Card",
+  secondaryCtaHref = "/contact",
+  secondaryCtaLabel = "Contact Sales →",
+}: Props) {
   return (
     <section className="relative isolate h-[92svh] w-full overflow-hidden">
       {/* Full-bleed gradient background */}
@@ -27,26 +49,31 @@ export default function ParallaxHero() {
 
       {/* Content */}
       <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col items-center justify-center px-6 text-center">
-        <span className="eyebrow text-white/80">Global Technology Distribution</span>
+        {eyebrow && <span className="eyebrow text-white/80">{eyebrow}</span>}
 
-        <AnimatedHeadline text="Components, programs, and logistics—done right." />
+        {/* Headline animates word-by-word */}
+        <AnimatedHeadline text={headline} />
 
-        <p className="mt-5 max-w-2xl text-balance text-white/85">
-          BizCom Global helps OEMs and CEMs move faster with reliable sourcing,
-          anti-counterfeit controls, and responsive support across APAC, EMEA,
-          and the Americas.
-        </p>
+        {subcopy && (
+          <p className="mt-5 max-w-2xl text-balance text-white/85">
+            {subcopy}
+          </p>
+        )}
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-          <MagneticButton href="/line-card" className="btn-shine">
-            View Line Card
-          </MagneticButton>
-          <Link
-            href="/contact"
-            className="link rounded-full border border-white/30 px-6 py-3 text-white/90 backdrop-blur-sm"
-          >
-            Contact Sales →
-          </Link>
+          {primaryCtaHref && primaryCtaLabel && (
+            <MagneticButton href={primaryCtaHref} className="btn-shine">
+              {primaryCtaLabel}
+            </MagneticButton>
+          )}
+          {secondaryCtaHref && secondaryCtaLabel && (
+            <Link
+              href={secondaryCtaHref}
+              className="link rounded-full border border-white/30 px-6 py-3 text-white/90 backdrop-blur-sm"
+            >
+              {secondaryCtaLabel}
+            </Link>
+          )}
         </div>
 
         {/* Scroll indicator */}

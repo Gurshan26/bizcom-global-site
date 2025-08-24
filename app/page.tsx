@@ -1,3 +1,5 @@
+"use client";
+
 import ParallaxHero from "@/components/ParallaxHero";
 import LogosMarquee from "@/components/LogosMarquee";
 import ValueTriplet from "@/components/ValueTriplet";
@@ -34,7 +36,15 @@ const brandsRow3 = [
 export default function HomePage() {
   return (
     <>
-      <ParallaxHero />
+      <ParallaxHero
+        eyebrow="BizCom Global"
+        headline="Trusted distribution for critical electronics"
+        subcopy="From APAC to the Americas, we help OEMs and CEMs ship on time with reliable sourcing, QA traceability, and responsive program support."
+        primaryCtaHref="/line-card"
+        primaryCtaLabel="View Line Card"
+        secondaryCtaHref="/contact"
+        secondaryCtaLabel="Contact Sales →"
+      />
 
       {/* Full-bleed, looping logos */}
       <LogosMarquee items={[brandsRow1, brandsRow2, brandsRow3]} speeds={[28, 32, 36]} />
