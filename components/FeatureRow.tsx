@@ -18,7 +18,6 @@ export default function FeatureRow({ title, body, cta, reverse }: Props) {
           reverse ? "lg:[&>*:first-child]:order-2" : ""
         }`}
       >
-        {/* Image placeholder */}
         <motion.div
           initial={{ opacity: 0, x: reverse ? 60 : -60 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -31,7 +30,6 @@ export default function FeatureRow({ title, body, cta, reverse }: Props) {
           </div>
         </motion.div>
 
-        {/* Copy */}
         <motion.div
           initial={{ opacity: 0, x: reverse ? -60 : 60 }}
           whileInView={{ opacity: 1, x: 0 }}

@@ -36,7 +36,7 @@ export default function ValueTriplet() {
                 duration: 0.55,
                 ease: [0.25, 1, 0.5, 1],
               }}
-              className="group rounded-2xl border border-black/5 bg-white p-6 shadow-sm"
+              className="group rounded-2xl border border-black/10 bg-white p-6 shadow-sm"
             >
               <h3 className="h3">{it.title}</h3>
               <p className="mt-2 text-sm text-brand-navy/80">{it.body}</p>

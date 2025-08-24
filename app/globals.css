@@ -38,3 +38,31 @@
     outline-offset: 2px;
   }
 }
+
+/* ---- Marquee (continuous loop) ---- */
+@keyframes marquee-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes marquee-x-reverse { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+@layer utilities {
+  .animate-marquee { animation: marquee-x var(--marquee-duration,30s) linear infinite; }
+  .animate-marquee-reverse { animation: marquee-x-reverse var(--marquee-duration,30s) linear infinite; }
+  .mask-fade { mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent); }
+
+  /* Full-bleed helper for sections that must span the viewport width */
+  .full-bleed {
+    width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+  
+ /* Subtle tech grid background (reduced density) */
+.bg-tech-grid {
+  background-image:
+    linear-gradient(to right, rgba(10,25,47,.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10,25,47,.035) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px; /* was 56px -> fewer lines */
+}
+  .bg-tech-grid-fade {
+    mask-image: linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
+  }
+}

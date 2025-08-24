@@ -18,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${inter.variable} ${montserrat.variable} ${playfair.variable}`}>
       <body className="font-sans text-[15px] text-slate-800 antialiased bg-white">
         <Nav />
+        
         {/* remove container wrapper, let each page control layout */}
         <main>{children}</main>
         <Footer />

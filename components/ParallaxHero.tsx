@@ -9,7 +9,7 @@ export default function ParallaxHero() {
       {/* Full-bleed gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-navy via-[#0F2849] to-brand-slate/60" />
 
-      {/* Animated soft orbs (subtle, premium) */}
+      {/* Animated soft orbs */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-brand-gold/10 blur-3xl"

@@ -35,7 +35,8 @@ export default function HomePage() {
     <>
       <ParallaxHero />
 
-      <LogosMarquee rows={3} items={[brandsRow1, brandsRow2, brandsRow3]} speedSeconds={35} />
+      {/* Full-bleed, looping logos */}
+      <LogosMarquee items={[brandsRow1, brandsRow2, brandsRow3]} speeds={[28, 32, 36]} />
 
       <ValueTriplet />
 
