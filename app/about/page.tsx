@@ -1,29 +1,51 @@
-export const metadata = { title: "About" };
+export const metadata = { title: "About BizCom Global" };
+
+import AboutHero from "./components/AboutHero";
+import StatsRow from "./components/StatsRow";
+import MilestoneTimeline from "./components/MilestoneTimeline";
+import FootprintMap from "./components/FootprintMap";
+import ValuesCompact from "./components/ValuesCompact";
+import ComplianceBadges from "./components/ComplianceBadges";
+import LeadershipRow from "./components/LeadershipRow";
 
 export default function AboutPage() {
   return (
-    <div className="prose max-w-none">
-      <h1>About BizCom Global</h1>
-      <p>
-        Founded in 2001, BizCom Global is a global technology distributor for
-        active and passive electronic components.
-      </p>
-      <p>
-        Our commitment to excellence is reflected in a team of seasoned professionals
-        who provide strategic sales insights and responsive support—fostering enduring,
-        trust-based relationships with clients and partners alike.
-      </p>
-      <p>
-        We serve a broad spectrum of clients—including Contract Electronic Manufacturers,
-        System Integrators, and leaders in the Automotive and Aerospace sectors—alongside
-        key players in Information and Communications Technology (ICT) and Data Networks.
-        Our solutions are engineered for performance and reliability, combining competitive
-        pricing with uncompromising service quality.
-      </p>
-      <p>
-        Through continuous innovation and a deep understanding of evolving industry needs,
-        we empower our customers to stay ahead in a rapidly transforming technological landscape.
-      </p>
-    </div>
+    <>
+      {/* HERO */}
+      <AboutHero />
+
+      {/* WHO WE ARE */}
+      <section id="who-we-are" className="section">
+        <div className="container-page">
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="eyebrow">Who we are</div>
+            <h2 className="h2 mt-1">Two decades of dependable distribution</h2>
+            <p className="mt-4 text-brand-navy/80">
+              BizCom Global is a distribution partner for mission‑critical electronics—active and passive components delivered with program‑level discipline.
+              Our team combines sourcing depth, anti‑counterfeit controls, and responsive support so OEMs and CEMs can build with confidence.
+              From scheduled deliveries and kitting to last‑time‑buy planning, we align to your production calendar—minimising risk, compressing lead times, and protecting quality across APAC, EMEA, and the Americas.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <StatsRow />
+
+      {/* MILESTONES */}
+      <MilestoneTimeline />
+
+      {/* FOOTPRINT */}
+      <FootprintMap />
+
+      {/* WHAT WE DO / VALUES */}
+      <ValuesCompact />
+
+      {/* COMPLIANCE & SUSTAINABILITY */}
+      <ComplianceBadges />
+
+      {/* LEADERSHIP */}
+      <LeadershipRow />
+    </>
   );
 }

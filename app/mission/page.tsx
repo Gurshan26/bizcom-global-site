@@ -1,8 +1,7 @@
 import ImagePlaceholder from "@/components/ImagePlaceholder";
 import { Reveal } from "@/components/Reveal";
-import ParallaxHero from "@/components/ParallaxHero";
+import MissionHero from "./components/MissionHero";  // ⟵ use left-aligned, partial-height hero
 import PillarsMosaic from "@/components/PillarsMosaic";
-import GlowOrbs from "@/components/GlowOrbs";
 
 export const metadata = { title: "Mission — BizCom Global" };
 
@@ -42,8 +41,8 @@ export default function MissionPage() {
 
   return (
     <div className="relative">
-      {/* ================= HERO (full viewport) ================= */}
-      <ParallaxHero />
+      {/* ================= HERO (left-aligned, partial height) ================= */}
+      <MissionHero />
 
       {/* ================= STATEMENT BAND (colored) ================= */}
       <section id="mission-content" className="relative z-0 section bg-brand-navy/5">

@@ -107,3 +107,12 @@
   0%, 72%   { opacity: .35; transform: scale(.9); }
   80%, 100% { opacity: 1; transform: scale(1); background: rgba(201,162,39,.9); }
 }
+
+/* Leaflet tile softening (subtle, premium look) */
+.map-muted .leaflet-tile {
+  filter: saturate(0) contrast(1.05) brightness(1.12);
+}
+.map-muted .leaflet-control-attribution {
+  font-size: 11px;
+  color: rgba(10,25,47,.55);
+}
