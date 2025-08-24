@@ -1,33 +1,44 @@
+// app/line-card/page.tsx
 import { categories } from "@/data/linecard";
+import LineCardHero from "./components/LineCardHero";
+import BrandMosaic from "./components/BrandMosaic";
 
-export const metadata = { title: "Line Card" };
+export const metadata = { title: "Line Card — BizCom Global" };
 
 export default function LineCardPage() {
   return (
-    <div className="space-y-8">
-      <header className="prose max-w-none">
-        <h1>Line Card</h1>
-        <p>
-          Representative list of manufacturers. Availability may vary by region and program.
-          Please contact sales for the latest authorizations and options.
-        </p>
-      </header>
+    <>
+      <LineCardHero />
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {categories.map((cat) => (
-          <section key={cat.name} className="card">
-            <h2 className="text-lg font-semibold">{cat.name}</h2>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {cat.brands.map(b => (
-                <span key={b.name} className="px-3 py-1 rounded-full border text-sm">
-                  {b.name}
-                </span>
-              ))}
+      {/* Filterable, animated brand grid */}
+      <section className="section">
+        <div className="container-page">
+          <BrandMosaic categories={categories} />
+        </div>
+      </section>
+
+      {/* Closing CTA */}
+      <section className="pb-16">
+        <div className="container-page">
+          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="grid items-center gap-4 sm:grid-cols-[1fr_auto]">
+              <div>
+                <div className="eyebrow">Sourcing next steps</div>
+                <h3 className="h2">Need coverage across these brands?</h3>
+                <p className="mt-1 text-brand-navy/80">
+                  Share your BOM or program details and our team will recommend the best path.
+                </p>
+              </div>
+              <a
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-brand-gold px-6 py-3 font-medium text-brand-navy shadow-lg transition-transform hover:-translate-y-0.5"
+              >
+                Contact Sales →
+              </a>
             </div>
-          </section>
-        ))}
-      </div>
-      <p className="text-sm text-slate-500">Format inspired by common industry line cards.</p>
-    </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
