@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -7,22 +7,25 @@ const items = [
   { href: "/about", label: "About" },
   { href: "/mission", label: "Mission" },
   { href: "/line-card", label: "Line Card" },
-  { href: "/contact", label: "Contact" }
-];
+  { href: "/contact", label: "Contact" },
+] as const;
 
-export function Nav() {
+export default function Nav() {
   const pathname = usePathname();
   return (
-    <header className="border-b border-slate-200 backdrop-blur sticky top-0 bg-white/70">
-      <div className="container flex items-center justify-between h-16">
-        <Link href="/" className="font-semibold">BizCom Global</Link>
-        <nav className="flex gap-5 text-sm">
-          {items.map(i => (
-            <Link key={i.href} href={i.href}
-              className={pathname === i.href ? "font-semibold" : "opacity-80 hover:opacity-100"}>
-              {i.label}
-            </Link>
-          ))}
+    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-header">
+      <div className="container-page h-16 flex items-center justify-between">
+        <Link href="/" className="font-display text-xl text-brand-navy">BizCom Global</Link>
+        <nav className="flex items-center gap-6 text-[15px]">
+          {items.map(i => {
+            const active = pathname === i.href;
+            return (
+              <Link key={i.href} href={i.href}
+                className={`link ${active ? "font-semibold text-brand-navy" : "text-brand-navy/80 hover:text-brand-navy"}`}>
+                {i.label}
+              </Link>
+            );
+          })}
         </nav>
       </div>
     </header>

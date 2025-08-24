@@ -2,14 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { --bg: #ffffff; --fg: #0f172a; }
-html, body { height: 100%; }
-body { color: var(--fg); background: var(--bg); }
-.container { @apply max-w-5xl mx-auto px-4; }
+/* ---- Base layer (global primitives) ---- */
+@layer base {
+  ::selection { background-color: #C9A22733; }
+}
 
-.btn { @apply inline-flex items-center gap-2 rounded-xl px-4 py-2 border border-slate-200 shadow-sm hover:shadow transition; }
-.btn-primary { @apply bg-brand text-white border-transparent hover:bg-brand-dark; }
-.card { @apply rounded-2xl border border-slate-200 p-6 shadow-sm; }
+/* ---- Components layer (reusable classes) ---- */
+@layer components {
+  /* Link style: elegant underline sweep */
+  .link { @apply relative inline-block; }
+  .link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 2px;
+    width: 0;
+    background: theme('colors.brand.gold');
+    transition: width .28s cubic-bezier(.25,1,.5,1);
+  }
+  .link:hover::after { width: 100%; }
 
-.prose h1 { @apply text-3xl font-bold; }
-.prose h2 { @apply text-xl font-semibold mt-6; }
+  /* Page container & section spacing helpers */
+  .container-page { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+  .section   { @apply py-14 sm:py-16 md:py-20; }
+  .eyebrow   { @apply uppercase tracking-[.15em] text-xs text-brand-slate font-medium; }
+  .h1        { @apply font-display text-3xl sm:text-4xl md:text-5xl text-brand-navy; }
+  .h2        { @apply font-heading text-2xl sm:text-3xl md:text-4xl text-brand-navy; }
+  .h3        { @apply font-heading text-xl sm:text-2xl text-brand-navy; }
+}
+
+/* ---- Utilities layer (one-off helpers) ---- */
+@layer utilities {
+  /* Accessible focus ring using brand gold */
+  :focus-visible {
+    outline: 3px solid theme('colors.brand.gold');
+    outline-offset: 2px;
+  }
+}
