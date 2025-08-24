@@ -1,24 +1,79 @@
-import { Hero } from "@/components/Hero";
-import { FeatureRow } from "@/components/FeatureRow";
-import { Partners } from "@/components/Partners";
+import ParallaxHero from "@/components/ParallaxHero";
+import LogosMarquee from "@/components/LogosMarquee";
+import ValueTriplet from "@/components/ValueTriplet";
+import FeatureRow from "@/components/FeatureRow";
 
-export const metadata = { title: "Home" };
+const brandsRow1 = [
+  "Texas Instruments",
+  "Analog Devices",
+  "Nexperia",
+  "Infineon",
+  "STMicroelectronics",
+  "Murata",
+];
+
+const brandsRow2 = [
+  "Vishay",
+  "Microchip",
+  "onsemi",
+  "Skyworks",
+  "TE Connectivity",
+  "Renesas",
+];
+
+const brandsRow3 = [
+  "Samsung",
+  "KEMET",
+  "Nichicon",
+  "KYOCERA AVX",
+  "Littelfuse",
+  "Arrow",
+];
 
 export default function HomePage() {
   return (
-    <div className="space-y-16">
-      <Hero />
-      <section>
-        <h2 className="text-xl font-semibold mb-3">Industries Served</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {["Contract Manufacturers","System Integrators","Automotive","Aerospace",
-            "ICT & Data Networks","Industrial"].map((x) => (
-            <div key={x} className="card">{x}</div>
-          ))}
+    <>
+      <ParallaxHero />
+
+      <LogosMarquee rows={3} items={[brandsRow1, brandsRow2, brandsRow3]} speedSeconds={35} />
+
+      <ValueTriplet />
+
+      <FeatureRow
+        title="Program sourcing beyond spot buys"
+        body="We design sourcing programs around your build plan—kitting, scheduled deliveries, and last-time-buy planning included."
+        cta={{ href: "/contact", label: "Talk to programs" }}
+      />
+
+      <FeatureRow
+        reverse
+        title="Traceability & anti-counterfeit controls"
+        body="Every part is vetted against a disciplined QA workflow and documentation is available from quote to delivery."
+        cta={{ href: "/mission", label: "See our standards" }}
+      />
+
+      {/* CTA band */}
+      <section className="section">
+        <div className="container-page">
+          <div className="rounded-3xl border border-black/5 bg-white p-6 shadow-sm">
+            <div className="grid items-center gap-4 sm:grid-cols-[1fr_auto]">
+              <div>
+                <div className="eyebrow">Next step</div>
+                <h3 className="h2">Share your BOM or program timelines</h3>
+                <p className="mt-1 text-brand-navy/80">
+                  Our team will respond within one business day.
+                </p>
+              </div>
+              <a
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-brand-gold px-6 py-3 font-medium text-brand-navy shadow-lg transition-transform hover:-translate-y-0.5"
+              >
+                Contact Sales →
+              </a>
+            </div>
+          </div>
         </div>
       </section>
-      <FeatureRow />
-      <Partners />
-    </div>
+    </>
   );
 }
