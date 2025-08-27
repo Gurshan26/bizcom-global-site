@@ -5,10 +5,6 @@ import Link from "next/link";
 import AnimatedHeadline from "@/components/AnimatedHeadline";
 import MagneticButton from "@/components/MagneticButton";
 
-/**
- * Reusable ParallaxHero with typed, optional props.
- * Defaults reproduce the current Home hero so existing usage doesn’t break.
- */
 type Props = {
   eyebrow?: string;
   headline?: string;
@@ -30,36 +26,40 @@ export default function ParallaxHero({
 }: Props) {
   return (
     <section className="relative isolate h-[92svh] w-full overflow-hidden">
-      {/* Full-bleed gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-navy via-[#0F2849] to-brand-slate/60" />
+      {/* 0 — Background video */}
+      <video
+        className="absolute inset-0 z-0 h-full w-full object-cover"
+        src="/videos/hero-bg.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+      />
 
-      {/* Animated soft orbs */}
+      {/* 1 — Dark gradient overlay for readability */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-br from-brand-navy/90 via-[#0F2849]/80 to-brand-slate/60" />
+
+      {/* 2 — Ambient soft orbs */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-brand-gold/10 blur-3xl"
+        className="pointer-events-none absolute -top-24 -left-24 z-20 h-80 w-80 rounded-full bg-brand-gold/10 blur-3xl"
         animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -bottom-20 -right-28 h-96 w-96 rounded-full bg-white/10 blur-3xl"
+        className="pointer-events-none absolute -bottom-20 -right-28 z-20 h-96 w-96 rounded-full bg-white/10 blur-3xl"
         animate={{ y: [0, 16, 0], x: [0, -12, 0] }}
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Content */}
-      <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col items-center justify-center px-6 text-center">
+      {/* 3 — Content */}
+      <div className="relative z-30 mx-auto flex h-full max-w-7xl flex-col items-center justify-center px-6 text-center">
         {eyebrow && <span className="eyebrow text-white/80">{eyebrow}</span>}
-
-        {/* Headline animates word-by-word */}
         <AnimatedHeadline text={headline} />
-
         {subcopy && (
-          <p className="mt-5 max-w-2xl text-balance text-white/85">
-            {subcopy}
-          </p>
+          <p className="mt-5 max-w-2xl text-balance text-white/85">{subcopy}</p>
         )}
-
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
           {primaryCtaHref && primaryCtaLabel && (
             <MagneticButton href={primaryCtaHref} className="btn-shine">
