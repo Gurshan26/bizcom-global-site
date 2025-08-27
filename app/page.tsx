@@ -55,6 +55,8 @@ export default function HomePage() {
         title="Program sourcing beyond spot buys"
         body="We design sourcing programs around your build plan—kitting, scheduled deliveries, and last-time-buy planning included."
         cta={{ href: "/contact", label: "Talk to programs" }}
+        imageSrc="/images/program-sourcing.jpg"
+        imageAlt="Program kitting and scheduled deliveries"
       />
 
       <FeatureRow
@@ -62,6 +64,8 @@ export default function HomePage() {
         title="Traceability & anti-counterfeit controls"
         body="Every part is vetted against a disciplined QA workflow and documentation is available from quote to delivery."
         cta={{ href: "/mission", label: "See our standards" }}
+        imageSrc="/images/traceability.jpg"
+        imageAlt="Technician inspecting components for authenticity and traceability"
       />
 
       {/* CTA band */}

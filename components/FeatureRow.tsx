@@ -2,15 +2,25 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 
 type Props = {
   title: string;
   body: string;
   cta?: { href: string; label: string };
   reverse?: boolean;
+  imageSrc?: string;
+  imageAlt?: string;
 };
 
-export default function FeatureRow({ title, body, cta, reverse }: Props) {
+export default function FeatureRow({
+  title,
+  body,
+  cta,
+  reverse,
+  imageSrc,
+  imageAlt = "",
+}: Props) {
   return (
     <section className="section">
       <div
@@ -18,7 +28,7 @@ export default function FeatureRow({ title, body, cta, reverse }: Props) {
           reverse ? "lg:[&>*:first-child]:order-2" : ""
         }`}
       >
-        {/* Image placeholder with gentle zoom */}
+        {/* Media */}
         <motion.div
           initial={{ opacity: 0, x: reverse ? 60 : -60, scale: 0.98 }}
           whileInView={{ opacity: 1, x: 0, scale: 1 }}
@@ -26,15 +36,35 @@ export default function FeatureRow({ title, body, cta, reverse }: Props) {
           transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
           className="relative aspect-[16/10] w-full overflow-hidden rounded-3xl bg-gradient-to-br from-brand-navy/15 via-brand-slate/20 to-white/30"
         >
-          <motion.div
-            initial={{ scale: 1 }}
-            whileInView={{ scale: 1.04 }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 2.5, ease: "easeOut" }}
-            className="absolute inset-0 grid place-items-center text-brand-navy/50"
-          >
-            Image here
-          </motion.div>
+          {imageSrc ? (
+            <motion.div
+              initial={{ scale: 1 }}
+              whileInView={{ scale: 1.04 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 2.5, ease: "easeOut" }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={imageSrc}
+                alt={imageAlt}
+                fill
+                priority={false}
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </motion.div>
+          ) : (
+            // Fallback placeholder
+            <motion.div
+              initial={{ scale: 1 }}
+              whileInView={{ scale: 1.04 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 2.5, ease: "easeOut" }}
+              className="absolute inset-0 grid place-items-center text-brand-navy/50"
+            >
+              Image here
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Copy */}
