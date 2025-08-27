@@ -2,12 +2,25 @@
 
 import { useMemo, useState, useRef } from "react";
 import { motion, LayoutGroup } from "framer-motion";
-import type { Category, Brand } from "@/data/linecard";
 
-type Props = { categories: Category[] };
+/* ===== Types that match what the page passes in ===== */
+export type MosaicBrand = {
+  name: string;
+  category: string;
+  description?: string;
+  logo?: string;     // URL or /logos/filename.svg
+  website?: string;  // URL
+};
+
+export type MosaicCategory = {
+  name: string;
+  brands: MosaicBrand[];
+};
+
+type Props = { categories: MosaicCategory[] };
 
 export default function BrandMosaic({ categories }: Props) {
-  const allBrands: (Brand & { category: string })[] = useMemo(
+  const allBrands: (MosaicBrand & { category: string })[] = useMemo(
     () => categories.flatMap((c) => c.brands.map((b) => ({ ...b, category: c.name }))),
     [categories]
   );
@@ -19,9 +32,8 @@ export default function BrandMosaic({ categories }: Props) {
 
   const filtered = allBrands.filter((b) => {
     const inCat = activeCat === "All" || b.category === activeCat;
-    const inQuery = q.trim()
-      ? [b.name, b.tagline, b.category].join(" ").toLowerCase().includes(q.toLowerCase())
-      : true;
+    const haystack = [b.name, b.description, b.category].join(" ").toLowerCase();
+    const inQuery = q.trim() ? haystack.includes(q.toLowerCase()) : true;
     return inCat && inQuery;
   });
 
@@ -127,7 +139,6 @@ function CategoryTile({
           : "border-white/15 bg-brand-navy text-white",
       ].join(" ")}
       style={{
-        // subtle gold spotlight near the cursor (muted, only on hover)
         backgroundImage: active
           ? undefined
           : `radial-gradient(90px 90px at var(--mx, 50%) var(--my, 50%), rgba(201,162,39,0.12), transparent 70%)`,
@@ -159,7 +170,13 @@ function CategoryTile({
 
 /* ---------------- BRAND TILE ---------------- */
 
-function BrandTile({ brand, index }: { brand: Brand & { category: string }; index: number }) {
+function BrandTile({
+  brand,
+  index,
+}: {
+  brand: MosaicBrand & { category: string };
+  index: number;
+}) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 22 }}
@@ -169,28 +186,30 @@ function BrandTile({ brand, index }: { brand: Brand & { category: string }; inde
       className="group relative overflow-hidden rounded-2xl border border-black/10 bg-white p-4 shadow-sm"
     >
       <span className="absolute left-0 top-4 h-8 w-1 rounded-r bg-brand-gold/80" aria-hidden />
+
       <div className="flex items-center gap-4">
-        {brand.logo ? (
+        {/* Logo is optional */}
+        {brand.logo && (
           <img
             src={brand.logo}
             alt={`${brand.name} logo`}
             className="h-10 w-auto max-w-[8rem] object-contain filter grayscale opacity-80 transition group-hover:grayscale-0 group-hover:opacity-100"
+            loading="lazy"
           />
-        ) : (
-          <div className="grid h-12 w-24 place-items-center rounded-md bg-black/[.04] text-[11px] text-brand-navy/60">
-            LOGO
-          </div>
         )}
+
         <div>
           <h3 className="font-medium text-brand-navy">{brand.name}</h3>
           <p className="text-xs text-brand-navy/60">{brand.category}</p>
         </div>
       </div>
 
-      {brand.tagline && (
-        <p className="mt-3 line-clamp-3 text-sm text-brand-navy/80">{brand.tagline}</p>
+      {/* Description is optional */}
+      {brand.description && (
+        <p className="mt-3 line-clamp-3 text-sm text-brand-navy/80">{brand.description}</p>
       )}
 
+      {/* Website is optional */}
       {brand.website && (
         <a
           href={brand.website}

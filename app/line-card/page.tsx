@@ -1,11 +1,71 @@
 // app/line-card/page.tsx
-import { categories } from "@/data/linecard";
 import LineCardHero from "./components/LineCardHero";
 import BrandMosaic from "./components/BrandMosaic";
 
+// ⚠️ Use a *relative* import so this works without the @ alias.
+import { categories as fallbackCategories } from "../../data/linecard";
+
+// Google Sheets fetcher (relative path)
+import { fetchLinecard, CATEGORY_ORDER, type Brand } from "../../lib/linecard";
+
 export const metadata = { title: "Line Card — BizCom Global" };
 
-export default function LineCardPage() {
+// Make sure this page is always dynamic (no build-time caching).
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+
+// Include optional logo & website fields so the UI can hide them if missing
+type BrandMosaicCategory = {
+  name: string;
+  brands: {
+    name: string;
+    category: string;
+    description?: string;
+    logo?: string;
+    website?: string;
+  }[];
+};
+
+function groupByCategory(items: Brand[]): BrandMosaicCategory[] {
+  const buckets = new Map<string, BrandMosaicCategory>();
+  for (const row of items) {
+    const cat = (row.category || "Uncategorized").trim();
+    if (!buckets.has(cat)) buckets.set(cat, { name: cat, brands: [] });
+    buckets.get(cat)!.brands.push({
+      name: row.name,
+      category: cat,
+      description: row.description,
+      logo: row.logo,
+      // website is optional
+      website: (row as any).website ?? undefined,
+    });
+  }
+  const order = new Map(CATEGORY_ORDER.map((c, i) => [c, i]));
+  return Array.from(buckets.values()).sort((a, b) => {
+    const ai = order.has(a.name) ? order.get(a.name)! : 999;
+    const bi = order.has(b.name) ? order.get(b.name)! : 999;
+    if (ai !== bi) return ai - bi;
+    return a.name.localeCompare(b.name);
+  });
+}
+
+async function loadCategoriesFromSheet(): Promise<BrandMosaicCategory[]> {
+  try {
+    const rows = await fetchLinecard(); // [{ name, category, description, logo?, website? }]
+    const grouped = groupByCategory(rows);
+    return grouped.length
+      ? grouped
+      : (fallbackCategories as unknown as BrandMosaicCategory[]);
+  } catch (err) {
+    // On any error, silently fall back to the prior static data to keep UX intact
+    return fallbackCategories as unknown as BrandMosaicCategory[];
+  }
+}
+
+export default async function LineCardPage() {
+  // Build the categories server-side so filtering/animation UI remains unchanged
+  const categories = await loadCategoriesFromSheet();
+
   return (
     <>
       <LineCardHero />
@@ -13,7 +73,7 @@ export default function LineCardPage() {
       {/* Filterable, animated brand grid */}
       <section className="section">
         <div className="container-page">
-          <BrandMosaic categories={categories} />
+          <BrandMosaic categories={categories as any} />
         </div>
       </section>
 
