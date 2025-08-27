@@ -30,7 +30,10 @@ export default function LineCardHero() {
           <div className="max-w-3xl">
             <span className="eyebrow text-white/80">Our line card</span>
             <h1 className="mt-3 font-display text-4xl leading-tight text-white sm:text-5xl md:text-6xl">
-              Trusted brands. Global distribution.
+              Trusted brands.
+            </h1>
+            <h1 className="mt-3 font-display text-4xl leading-tight text-white sm:text-5xl md:text-6xl">
+              Global reach.
             </h1>
             <p className="mt-4 max-w-prose text-white/85">
               A curated portfolio across semiconductors, passives, interconnects, protection,
