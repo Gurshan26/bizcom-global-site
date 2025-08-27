@@ -1,20 +1,12 @@
 // app/line-card/page.tsx
 import LineCardHero from "./components/LineCardHero";
 import BrandMosaic from "./components/BrandMosaic";
-
-// ⚠️ Use a *relative* import so this works without the @ alias.
-import { categories as fallbackCategories } from "../../data/linecard";
-
-// Google Sheets fetcher (relative path)
 import { fetchLinecard, CATEGORY_ORDER, type Brand } from "../../lib/linecard";
 
 export const metadata = { title: "Line Card — BizCom Global" };
-
-// Make sure this page is always dynamic (no build-time caching).
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
-// Include optional logo & website fields so the UI can hide them if missing
 type BrandMosaicCategory = {
   name: string;
   brands: {
@@ -36,7 +28,6 @@ function groupByCategory(items: Brand[]): BrandMosaicCategory[] {
       category: cat,
       description: row.description,
       logo: row.logo,
-      // website is optional
       website: (row as any).website ?? undefined,
     });
   }
@@ -49,35 +40,43 @@ function groupByCategory(items: Brand[]): BrandMosaicCategory[] {
   });
 }
 
-async function loadCategoriesFromSheet(): Promise<BrandMosaicCategory[]> {
-  try {
-    const rows = await fetchLinecard(); // [{ name, category, description, logo?, website? }]
-    const grouped = groupByCategory(rows);
-    return grouped.length
-      ? grouped
-      : (fallbackCategories as unknown as BrandMosaicCategory[]);
-  } catch (err) {
-    // On any error, silently fall back to the prior static data to keep UX intact
-    return fallbackCategories as unknown as BrandMosaicCategory[];
-  }
-}
-
 export default async function LineCardPage() {
-  // Build the categories server-side so filtering/animation UI remains unchanged
-  const categories = await loadCategoriesFromSheet();
+  let categories: BrandMosaicCategory[] = [];
+  let errorMsg: string | null = null;
+
+  try {
+    const rows = await fetchLinecard(); // throws on any issue
+    categories = groupByCategory(rows);
+  } catch (err: any) {
+    errorMsg = String(err?.message || err);
+    // Also echo full error to server console for debugging
+    console.error("[/line-card] Failed to load Google Sheets:", err);
+  }
 
   return (
     <>
       <LineCardHero />
 
-      {/* Filterable, animated brand grid */}
       <section className="section">
         <div className="container-page">
-          <BrandMosaic categories={categories as any} />
+          {errorMsg ? (
+            <div className="mb-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-red-800">
+              <div className="font-semibold">Couldn’t load the line card from Google Sheets.</div>
+              <div className="mt-1 text-sm opacity-90">
+                {errorMsg}
+              </div>
+              <div className="mt-3 text-sm text-red-700">
+                Check your <code>.env.local</code> values (API key, spreadsheet ID, sheet tab name),
+                ensure the “Google Sheets API” is enabled, and that the tab name exactly matches.
+                After changing <code>.env.local</code>, restart <code>next dev</code>.
+              </div>
+            </div>
+          ) : (
+            <BrandMosaic categories={categories as any} />
+          )}
         </div>
       </section>
 
-      {/* Closing CTA */}
       <section className="pb-16">
         <div className="container-page">
           <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">

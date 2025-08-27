@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="container-page py-10 text-sm text-brand-navy/80">
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
-            <div className="font-heading text-brand-navy">BizCom Global</div>
+            <div className="font-heading text-brand-navy">BizCom Global Pte Ltd</div>
             <div className="mt-2">10 Jalan Besar #06-03 Sim Lim Tower<br/>Singapore 208787</div>
             <div className="mt-2"><a className="link" href="mailto:sales@bizcompl.com">sales@bizcompl.com</a></div>
           </div>

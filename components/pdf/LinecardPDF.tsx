@@ -266,7 +266,7 @@ export default function LinecardPDF({ items }: { items: Item[] }) {
 
         {/* Footer */}
         <View style={styles.footer} fixed>
-          <Text>© {new Date().getFullYear()} BizCom Global</Text>
+          <Text>© {new Date().getFullYear()} BizCom Global Pte Ltd</Text>
           <Text render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`} />
         </View>
       </Page>
