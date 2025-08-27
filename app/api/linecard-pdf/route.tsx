@@ -1,14 +1,13 @@
-// app/api/linecard-pdf/route.tsx
-import React from "react";
+// app/api/linecard-pdf/route.ts
 import { NextResponse } from "next/server";
 import { renderToStream } from "@react-pdf/renderer";
 
-// use RELATIVE paths so we avoid alias issues
+// ✅ use RELATIVE imports (no "@")
 import { fetchLinecard } from "../../../lib/linecard";
 import LinecardPDF from "../../../components/pdf/LinecardPDF";
 import { categories as fallbackCategories } from "../../../data/linecard";
 
-export const runtime = "nodejs"; // needed for @react-pdf streaming
+export const runtime = "nodejs"; // streaming PDFs need the Node runtime
 
 type FallbackBrand = {
   name: string;
@@ -22,13 +21,7 @@ type FallbackCategory = {
 };
 
 function flattenFallback(cats: FallbackCategory[]) {
-  const items: {
-    name: string;
-    category: string;
-    description?: string;
-    website?: string;
-    logo?: string;
-  }[] = [];
+  const items: { name: string; category: string; description?: string; website?: string; logo?: string }[] = [];
   for (const c of cats) {
     for (const b of c.brands) {
       items.push({
@@ -45,21 +38,17 @@ function flattenFallback(cats: FallbackCategory[]) {
 
 export async function GET() {
   try {
-    let items =
-      (await fetchLinecard()) ||
-      flattenFallback(fallbackCategories as unknown as FallbackCategory[]);
-
-    if (!items.length) {
+    let items = await fetchLinecard(); // [{ name, category, description, website?, logo? }]
+    if (!items || items.length === 0) {
       items = flattenFallback(fallbackCategories as unknown as FallbackCategory[]);
     }
 
     const stream = await renderToStream(<LinecardPDF items={items as any} />);
 
-    // Next.js App Router can handle a Node Readable stream here in Node runtime
     return new NextResponse(stream as any, {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": 'inline; filename="BizCom-Global-Linecard.pdf"',
+        "Content-Disposition": `inline; filename="BizCom-Global-Linecard.pdf"`,
         "Cache-Control": "no-store",
       },
     });

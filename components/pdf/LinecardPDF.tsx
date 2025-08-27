@@ -1,58 +1,143 @@
 // components/pdf/LinecardPDF.tsx
 import React from "react";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
-import { CATEGORY_ORDER } from "../../lib/linecard"; // relative path
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Link,
+} from "@react-pdf/renderer";
+import { CATEGORY_ORDER } from "../../lib/linecard";
 
+/** Data shape coming in from the route */
 type Item = {
   name: string;
   category: string;
   description?: string;
   website?: string;
-  logo?: string; // ignored in PDF
+  logo?: string; // Ignored in PDF for simplicity/reliability
 };
 
+/* ----------- Styles (A4, brand colors) ----------- */
+const BRAND_NAVY = "#0F2849";
+const BRAND_GOLD = "#C9A227";
+const INK = BRAND_NAVY;
+
 const styles = StyleSheet.create({
+  // ----- Cover Page -----
+  coverPage: {
+    paddingTop: 72,
+    paddingBottom: 72,
+    paddingHorizontal: 72,
+    color: INK,
+    fontFamily: "Helvetica",
+  },
+  eyebrow: {
+    fontSize: 10,
+    textTransform: "uppercase",
+    letterSpacing: 2,
+    color: "#98A2B3",
+  },
+  coverTitle: {
+    fontSize: 38,
+    marginTop: 8,
+    fontWeight: 700,
+    lineHeight: 1.15,
+  },
+  coverSub: {
+    marginTop: 14,
+    fontSize: 12.5,
+    color: "#475467",
+    lineHeight: 1.45,
+    maxWidth: 420,
+  },
+  infoCard: {
+    marginTop: 28,
+    padding: 16,
+    borderRadius: 8,
+    border: "1pt solid #E5E7EB",
+    backgroundColor: "#FBFBFD",
+    maxWidth: 360,
+  },
+  infoTitle: {
+    fontSize: 18,
+    fontWeight: 700,
+    marginBottom: 8,
+  },
+  infoItem: {
+    fontSize: 12,
+    color: "#344054",
+    lineHeight: 1.5,
+  },
+  goldBar: {
+    height: 4,
+    width: 64,
+    backgroundColor: BRAND_GOLD,
+    borderRadius: 999,
+    marginTop: 24,
+  },
+  coverMetaRow: {
+    marginTop: 18,
+    fontSize: 10,
+    color: "#98A2B3",
+  },
+
+  // ----- Content Pages -----
   page: {
     paddingTop: 40,
     paddingBottom: 40,
     paddingHorizontal: 40,
     fontFamily: "Helvetica",
     fontSize: 10,
-    color: "#0F2849",
+    color: INK,
   },
-  header: { marginBottom: 16 },
-  eyebrow: { fontSize: 9, textTransform: "uppercase", letterSpacing: 1.5, color: "#667085" },
-  title: { fontSize: 22, marginTop: 4, fontWeight: 700 },
-  subcopy: { fontSize: 10, color: "#475467", marginTop: 6 },
-  metaRow: { marginTop: 8, flexDirection: "row", justifyContent: "space-between", color: "#98A2B3" },
-  section: { marginTop: 18 },
-  sectionTitle: {
-    fontSize: 13,
+  headerBlock: {
+    marginBottom: 6,
+  },
+  headerTitle: {
+    fontSize: 16,
     fontWeight: 700,
-    marginBottom: 8,
-    borderBottom: "1px solid #E5E7EB",
-    paddingBottom: 4,
   },
-  row: { flexDirection: "row", paddingVertical: 8, borderBottom: "1px solid #F2F4F7" },
-  colName: { width: "28%", paddingRight: 8 },
-  colDesc: { width: "52%", paddingRight: 8 },
-  colSite: { width: "20%" },
-  name: { fontSize: 11, fontWeight: 700 },
-  category: { fontSize: 9, color: "#667085", marginTop: 2 },
-  desc: { fontSize: 10, color: "#344054" },
-  site: { fontSize: 9, color: "#0F2849", textDecoration: "underline" },
+  meta: { fontSize: 9, color: "#98A2B3", marginTop: 2 },
+
+  columns: {
+    flexDirection: "row",
+    gap: 14,
+    marginTop: 10,
+  },
+  column: { width: "50%" },
+
+  sectionBlock: { marginBottom: 12 },
+  sectionTitle: {
+    fontSize: 12,
+    fontWeight: 700,
+    marginBottom: 6,
+    paddingBottom: 3,
+    borderBottom: "1pt solid #E5E7EB",
+  },
+
+  row: {
+    paddingVertical: 6,
+    borderBottom: "1pt solid #F2F4F7",
+  },
+  name: { fontSize: 10.5, fontWeight: 700 },
+  desc: { fontSize: 10, color: "#344054", marginTop: 1.5 },
+  site: { fontSize: 9, color: INK, textDecoration: "underline", marginTop: 2 },
+
   footer: {
     position: "absolute",
-    fontSize: 9,
-    color: "#98A2B3",
     left: 40,
     right: 40,
     bottom: 20,
+    fontSize: 9,
+    color: "#98A2B3",
     flexDirection: "row",
     justifyContent: "space-between",
   },
 });
 
+/* ----------- Helpers ----------- */
 function groupByCategory(items: Item[]) {
   const byCat = new Map<string, Item[]>();
   for (const it of items) {
@@ -60,57 +145,124 @@ function groupByCategory(items: Item[]) {
     if (!byCat.has(key)) byCat.set(key, []);
     byCat.get(key)!.push(it);
   }
+
+  // Sort categories by your preferred order, then alpha
   const order = new Map(CATEGORY_ORDER.map((c, i) => [c, i]));
   const sections = Array.from(byCat.entries()).sort((a, b) => {
-    const ai = order.has(a[0]) ? (order.get(a[0]) as number) : 999;
-    const bi = order.has(b[0]) ? (order.get(b[0]) as number) : 999;
+    const ai = order.has(a[0]) ? order.get(a[0])! : 999;
+    const bi = order.has(b[0]) ? order.get(b[0])! : 999;
     if (ai !== bi) return ai - bi;
     return a[0].localeCompare(b[0]);
   });
+
+  // Sort brands alpha within each section
   for (const [, arr] of sections) arr.sort((x, y) => x.name.localeCompare(y.name));
   return sections;
 }
 
+/** split the [ [cat, items], ... ] sections across 2 columns by alternating */
+function splitIntoTwoColumns<T>(sections: [string, T[]][]) {
+  const left: [string, T[]][] = [];
+  const right: [string, T[]][] = [];
+  sections.forEach((s, i) => (i % 2 === 0 ? left.push(s) : right.push(s)));
+  return { left, right };
+}
+
+/* ----------- Component ----------- */
 export default function LinecardPDF({ items }: { items: Item[] }) {
   const sections = groupByCategory(items);
-  const today = new Date();
-  const dateStr = today.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  const { left, right } = splitIntoTwoColumns(sections);
+
+  const updated = new Date().toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
   return (
     <Document title="BizCom Global — Line Card">
-      <Page size="A4" style={styles.page}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.eyebrow}>BizCom Global — Line Card</Text>
-          <Text style={styles.title}>Trusted brands. Global reach.</Text>
-          <Text style={styles.subcopy}>
-            A curated portfolio across semiconductors, passives, interconnects, protection, timing, and
-            emerging technologies—continuously expanded to meet program needs.
+      {/* COVER PAGE */}
+      <Page size="A4" style={styles.coverPage}>
+        <Text style={styles.eyebrow}>BizCom Global</Text>
+        <Text style={styles.coverTitle}>Trusted brands.{'\n'}Global reach.</Text>
+        <Text style={styles.coverSub}>
+          A curated portfolio across semiconductors, passives, interconnects,
+          protection, timing, and emerging technologies—continuously expanded
+          to meet program needs.
+        </Text>
+
+        <View style={styles.infoCard}>
+          <Text style={styles.eyebrow}>BizCom Global</Text>
+          <Text style={styles.infoTitle}>Head office</Text>
+
+          {/* ADDRESS (your provided details) */}
+          <Text style={styles.infoItem}>10 Jalan Besar #06-03</Text>
+          <Text style={styles.infoItem}>Sim Lim Tower</Text>
+          <Text style={styles.infoItem}>Singapore 208787</Text>
+
+          <Text style={[styles.infoItem, { marginTop: 10 }]}>
+            Email: sales@bizcompl.com
           </Text>
-          <View style={styles.metaRow}>
-            <Text>Updated: {dateStr}</Text>
-            <Text>bizcompl.com</Text>
-          </View>
+          <Text style={styles.infoItem}>Phone: +65 9023317</Text>
+          <Text style={[styles.infoItem, { marginTop: 6 }]}>Website: bizcompl.com</Text>
         </View>
 
-        {/* Sections */}
-        {sections.map(([cat, brands]: [string, Item[]], sIdx: number) => (
-          <View key={`${cat}-${sIdx}`} style={styles.section} wrap={false}>
-            <Text style={styles.sectionTitle}>{cat}</Text>
-            {brands.map((b: Item, idx: number) => (
-              <View key={`${b.name}-${idx}`} style={styles.row}>
-                <View style={styles.colName}>
-                  <Text style={styles.name}>{b.name}</Text>
-                  <Text style={styles.category}>{cat}</Text>
-                </View>
-                <View style={styles.colDesc}>
-                  {b.description ? <Text style={styles.desc}>{b.description}</Text> : <Text style={styles.desc}>—</Text>}
-                </View>
-                <View style={styles.colSite}>{b.website ? <Text style={styles.site}>{b.website}</Text> : null}</View>
+        <View style={styles.goldBar} />
+        <Text style={styles.coverMetaRow}>Updated: {updated}</Text>
+      </Page>
+
+      {/* CONTENT PAGES (2 columns) */}
+      <Page size="A4" style={styles.page} wrap>
+        <View style={styles.headerBlock}>
+          <Text style={styles.headerTitle}>Line card</Text>
+          <Text style={styles.meta}>Updated: {updated} • bizcompl.com</Text>
+        </View>
+
+        <View style={styles.columns}>
+          {/* LEFT COLUMN */}
+          <View style={styles.column}>
+            {left.map(([cat, brands]) => (
+              <View style={styles.sectionBlock} key={cat} wrap={false}>
+                <Text style={styles.sectionTitle}>{cat}</Text>
+                {brands.map((b, idx) => (
+                  <View style={styles.row} key={`${cat}-${b.name}-${idx}`}>
+                    <Text style={styles.name}>{b.name}</Text>
+                    {b.description ? (
+                      <Text style={styles.desc}>{b.description}</Text>
+                    ) : null}
+                    {b.website ? (
+                      <Link src={b.website} style={styles.site}>
+                        {b.website}
+                      </Link>
+                    ) : null}
+                  </View>
+                ))}
               </View>
             ))}
           </View>
-        ))}
+
+          {/* RIGHT COLUMN */}
+          <View style={styles.column}>
+            {right.map(([cat, brands]) => (
+              <View style={styles.sectionBlock} key={cat} wrap={false}>
+                <Text style={styles.sectionTitle}>{cat}</Text>
+                {brands.map((b, idx) => (
+                  <View style={styles.row} key={`${cat}-${b.name}-${idx}`}>
+                    <Text style={styles.name}>{b.name}</Text>
+                    {b.description ? (
+                      <Text style={styles.desc}>{b.description}</Text>
+                    ) : null}
+                    {b.website ? (
+                      <Link src={b.website} style={styles.site}>
+                        {b.website}
+                      </Link>
+                    ) : null}
+                  </View>
+                ))}
+              </View>
+            ))}
+          </View>
+        </View>
 
         {/* Footer */}
         <View style={styles.footer} fixed>
