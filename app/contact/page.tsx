@@ -87,7 +87,7 @@ export default function ContactPage() {
                   sales@bizcompl.com
                 </a>
               </div>
-              <div>Hours: Mon–Fri, 9:00–18:00 SGT</div>
+              <div>Phone:+65 9023317</div>
             </div>
             <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-black/5" />
           </motion.aside>
