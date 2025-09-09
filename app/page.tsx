@@ -121,16 +121,6 @@ export default function Page() {
         </div>
       </section>
 
-      {/* VISUAL MEDIA TRIO */}
-      <section className="section">
-        <div className="container-page">
-          <div className="grid gap-4 md:grid-cols-3">
-            <VisualCard src="/images/program-sourcing.jpg" caption="Kitting & scheduled deliveries" />
-            <VisualCard src="/images/traceability.jpg" caption="Inspection & documentation" />
-            <VisualPattern caption="Global shipping lanes" />
-          </div>
-        </div>
-      </section>
 
       {/* PROGRAMS / SERVICES STRIP */}
       <section id="programs" className="section">
