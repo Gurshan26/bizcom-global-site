@@ -87,10 +87,19 @@ export default function ContactPage() {
                   sales@bizcompl.com
                 </a>
               </div>
-              <div>Phone:+65 9023317</div>
+              <div className="mt-2">
+                <a
+                  href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi! I’d like to talk to BizCom.")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-[#25D366] px-5 py-2 font-medium text-white shadow transition hover:scale-[1.03] active:scale-95"
+                >
+                  Message us on WhatsApp
+                </a>
+              </div>
             </div>
             <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-black/5" />
-          </motion.aside>
+          </motion.aside> 
 
           {/* Right: Contact form */}
           <motion.form
