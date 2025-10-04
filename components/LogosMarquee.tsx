@@ -15,7 +15,6 @@ type Props = {
   title?: string; // eyebrow text (default: "Trusted by manufacturers")
 };
 
-/** If item is a string path/URL, return it as src; otherwise return undefined. */
 const pathLike = (s: string) =>
   /^https?:\/\//i.test(s) || s.startsWith("/") || s.startsWith("./") || s.startsWith("../");
 
@@ -26,15 +25,11 @@ const getSrc = (item: LogoItem): string | undefined => {
   return item.src;
 };
 
-/** Derive a reasonable alt from src if none was provided. */
 const altFromSrc = (src: string) => {
   try {
     const last = src.split("/").pop() || src;
     const base = last.replace(/\.[a-z0-9]+$/i, "");
-    return base
-      .replace(/[-_]+/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
+    return base.replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
   } catch {
     return "logo";
   }
@@ -42,7 +37,6 @@ const altFromSrc = (src: string) => {
 
 const getAlt = (item: LogoItem): string => {
   if (typeof item === "string") {
-    // if it's an image path, derive alt from filename; otherwise use the string itself as alt
     return pathLike(item) ? altFromSrc(item) : item;
   }
   const src = item.src;
@@ -52,13 +46,43 @@ const getAlt = (item: LogoItem): string => {
   return "logo";
 };
 
-const LogoCard: React.FC<{ item: LogoItem }> = ({ item }) => {
+/* ---------------- Mobile pill (non-animated) ---------------- */
+function MobilePill({ item }: { item: LogoItem }) {
   const rawSrc = getSrc(item);
-  const safeSrc = rawSrc ? encodeURI(rawSrc) : undefined; // handle spaces/parentheses in filenames
+  const src = rawSrc ? encodeURI(rawSrc) : undefined;
   const alt = getAlt(item);
   const [ok, setOk] = useState(true);
+  const show = !!src && ok;
 
-  const showImage = !!safeSrc && ok;
+  return (
+    <div
+      className="flex h-16 min-w-[9.5rem] items-center justify-center rounded-xl border border-black/10 bg-white/90 px-4 shadow-sm"
+      title={alt}
+      aria-label={alt}
+    >
+      {show ? (
+        <img
+          src={src}
+          alt={alt}
+          className="h-8 w-auto object-contain"
+          loading="lazy"
+          decoding="async"
+          onError={() => setOk(false)}
+        />
+      ) : (
+        <span className="text-[11px] text-brand-navy/70 truncate max-w-[8.5rem]">{alt}</span>
+      )}
+    </div>
+  );
+}
+
+/* ---------------- Desktop card (animated rows) ---------------- */
+function LogoCard({ item }: { item: LogoItem }) {
+  const rawSrc = getSrc(item);
+  const src = rawSrc ? encodeURI(rawSrc) : undefined;
+  const alt = getAlt(item);
+  const [ok, setOk] = useState(true);
+  const show = !!src && ok;
 
   return (
     <div
@@ -69,52 +93,43 @@ const LogoCard: React.FC<{ item: LogoItem }> = ({ item }) => {
       title={alt}
     >
       <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5" />
-      {showImage ? (
+      {show ? (
         <img
-          src={safeSrc}
+          src={src}
           alt={alt}
           loading="lazy"
           decoding="async"
           referrerPolicy="no-referrer"
-          className="h-10 sm:h-12 object-contain transition duration-300 ease-out hover:scale-[1.02]"
+          className="h-10 sm:h-12 object-contain transition duration-300 ease-out group-hover:scale-[1.02]"
           onError={() => setOk(false)}
         />
       ) : (
-        <div
-          className="grid place-items-center h-10 w-40 rounded bg-black/5 text-[11px] text-brand-navy/60 opacity-80 transition
-                     group-hover:opacity-100 group-hover:scale-[1.02]"
-          aria-hidden={!safeSrc}
-        >
-          {/* fallback shows alt text when image missing */}
+        <div className="grid h-10 w-40 place-items-center rounded bg-black/5 text-[11px] text-brand-navy/60 opacity-80">
           <span className="truncate max-w-[9rem]">{alt}</span>
         </div>
       )}
       <span className="sr-only">{alt}</span>
     </div>
   );
-};
+}
 
-const Row: React.FC<{
-  items: LogoItem[];
-  reverse?: boolean;
-  duration: number; // seconds
-}> = ({ items, reverse, duration }) => {
-  const doubled = [...items, ...items]; // seamless loop
-
+function Row({ items, reverse, duration }: { items: LogoItem[]; reverse?: boolean; duration: number }) {
+  const doubled = [...items, ...items];
   return (
     <div className="group relative overflow-hidden py-4 mask-fade">
       <div
-        className={`flex w-max gap-6 whitespace-nowrap will-change-transform
-                    ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}
+        className={`flex w-max gap-6 whitespace-nowrap will-change-transform ${
+          reverse ? "animate-marquee-reverse" : "animate-marquee"
+        }`}
         style={{ animationDuration: `${duration}s` }}
       >
         {doubled.map((item, i) => (
-          <LogoCard key={(typeof item === "string" ? getAlt(item) : getAlt(item)) + i} item={item} />
+          <LogoCard key={`${getAlt(item)}-${i}`} item={item} />
         ))}
       </div>
     </div>
   );
-};
+}
 
 export default function LogosMarquee({
   items,
@@ -122,14 +137,13 @@ export default function LogosMarquee({
   title = "Trusted by manufacturers",
 }: Props) {
   const rowCount = Math.min(items.length, speeds.length);
+  const flat = items.flat().slice(0, 16); // cap for mobile
 
   return (
-    <section className="relative full-bleed bg-white bg-tech-grid bg-tech-grid-fade py-10 sm:py-12">
-      {/* Subtle vignette */}
+    <section className="relative full-bleed bg-white bg-tech-grid bg-tech-grid-fade py-6 sm:py-12">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_-200px,rgba(10,25,47,.06),transparent_70%)]" />
 
-      {/* Eyebrow + animated progress dots */}
-      <div className="container-page mb-4 flex items-center justify-between gap-4">
+      <div className="container-page mb-3 sm:mb-4 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span className="eyebrow text-brand-slate">{title}</span>
           <div className="hidden sm:flex items-center gap-1 opacity-80" aria-hidden>
@@ -138,8 +152,6 @@ export default function LogosMarquee({
             <span className="h-1 w-1 rounded-full bg-brand-gold/60" />
           </div>
         </div>
-
-        {/* Dots “tick” in time with the first row’s loop */}
         <div className="hidden sm:flex items-center gap-2 pr-2" aria-hidden>
           <span className="progress-dot" style={{ ["--d" as any]: `${speeds[0]}s` }} />
           <span className="progress-dot" style={{ ["--d" as any]: `${speeds[0]}s` }} />
@@ -147,8 +159,19 @@ export default function LogosMarquee({
         </div>
       </div>
 
-      {/* Rails */}
-      <div className="mx-auto max-w-none px-0">
+      {/* MOBILE: compact, scrollable row */}
+      <div className="md:hidden">
+        <div className="container-page">
+          <div className="flex gap-3 overflow-x-auto pb-1">
+            {flat.map((item, i) => (
+              <MobilePill key={`${getAlt(item)}-${i}`} item={item} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* DESKTOP/TABLET: animated rows */}
+      <div className="hidden md:block mx-auto max-w-none px-0">
         {Array.from({ length: rowCount }).map((_, i) => (
           <Row key={i} items={items[i]} reverse={i % 2 === 1} duration={speeds[i]} />
         ))}
@@ -160,9 +183,9 @@ export default function LogosMarquee({
         </a>
       </div>
 
-      {/* Edge fades for elegance */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white" />
+      {/* Edge fades only when rows animate */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white hidden md:block" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white hidden md:block" />
     </section>
   );
 }

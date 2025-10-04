@@ -1,5 +1,6 @@
 import "./globals.css";
 import Nav from "@/components/Nav";
+import MobileDock from "@/components/MobileDock";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
 import { Inter, Montserrat, Playfair_Display } from "next/font/google";
@@ -17,17 +18,21 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable} ${playfair.variable}`}>
-      <body className="font-sans text-[15px] text-slate-800 antialiased bg-white">
+      <body className="min-h-dvh font-sans text-[15px] text-slate-800 antialiased bg-white">
+        {/* Desktop/tablet sticky nav */}
         <Nav />
-        {/* subtle scroll progress */}
+
+        {/* Subtle scroll progress */}
         <ProgressBar />
 
-        {/* each page controls its own layout */}
-        <main>{children}</main>
+        {/* Ensure space for the mobile dock */}
+        <main className="pb-[4.25rem] md:pb-0">{children}</main>
+
+        {/* Mobile bottom dock */}
+        <MobileDock />
 
         <Footer />
       </body>
     </html>
   );
 }
-

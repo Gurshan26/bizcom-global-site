@@ -38,10 +38,10 @@ export default function BrandMosaic({ categories }: Props) {
   });
 
   return (
-    <div id="brands" className="space-y-8">
-      {/* CATEGORY RAIL — full width, bold, premium */}
+    <div id="brands" className="space-y-6 sm:space-y-8">
+      {/* CATEGORY RAIL */}
       <LayoutGroup id="category-rail">
-        <div className="flex w-full flex-wrap items-center gap-3">
+        <div className="flex w-full flex-wrap items-center gap-2 sm:gap-3">
           {catNames.map((name) => (
             <CategoryTile
               key={name}
@@ -54,8 +54,8 @@ export default function BrandMosaic({ categories }: Props) {
       </LayoutGroup>
 
       {/* Search / status row */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="text-sm text-brand-navy/60">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+        <div className="text-xs sm:text-sm text-brand-navy/60">
           Showing <strong>{filtered.length}</strong> brand{filtered.length === 1 ? "" : "s"}
           {activeCat !== "All" && (
             <>
@@ -71,12 +71,12 @@ export default function BrandMosaic({ categories }: Props) {
           )}
         </div>
 
-        <div className="relative w-full max-w-xs">
+        <div className="relative w-full max-w-[13rem] sm:max-w-xs">
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search brands…"
-            className="w-full rounded-full border border-black/10 bg-white px-4 py-2 pl-10 outline-none focus:ring-2 focus:ring-brand-gold/60"
+            className="w-full rounded-full border border-black/10 bg-white pl-9 pr-3 py-1.5 sm:py-2 outline-none focus:ring-2 focus:ring-brand-gold/60"
           />
           <span
             aria-hidden
@@ -88,7 +88,7 @@ export default function BrandMosaic({ categories }: Props) {
       </div>
 
       {/* BRANDS GRID */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" aria-live="polite">
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" aria-live="polite">
         {filtered.map((b, i) => (
           <BrandTile key={`${b.name}-${i}`} brand={b} index={i} />
         ))}
@@ -131,8 +131,8 @@ function CategoryTile({
       onClick={onClick}
       aria-pressed={active}
       className={[
-        "group relative inline-flex items-center overflow-hidden rounded-full border px-5 py-3",
-        "text-sm font-medium tracking-tight transition",
+        "group relative inline-flex items-center overflow-hidden rounded-full border",
+        "px-3 py-1.5 text-xs sm:px-5 sm:py-3 sm:text-sm font-medium tracking-tight transition",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold/70",
         active
           ? "border-black/10 bg-white text-brand-navy shadow-sm"
@@ -183,30 +183,30 @@ function BrandTile({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
       transition={{ duration: 0.55, ease: [0.25, 1, 0.5, 1], delay: (index % 10) * 0.02 }}
-      className="group relative overflow-hidden rounded-2xl border border-black/10 bg-white p-4 shadow-sm"
+      className="group relative overflow-hidden rounded-2xl border border-black/10 bg-white p-3 sm:p-4 shadow-sm"
     >
-      <span className="absolute left-0 top-4 h-8 w-1 rounded-r bg-brand-gold/80" aria-hidden />
+      <span className="absolute left-0 top-3 sm:top-4 h-7 sm:h-8 w-1 rounded-r bg-brand-gold/80" aria-hidden />
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 sm:gap-4">
         {/* Logo is optional */}
         {brand.logo && (
           <img
             src={brand.logo}
             alt={`${brand.name} logo`}
-            className="h-10 w-auto max-w-[8rem] object-contain filter grayscale opacity-80 transition group-hover:grayscale-0 group-hover:opacity-100"
+            className="h-9 sm:h-10 w-auto max-w-[7rem] sm:max-w-[8rem] object-contain filter grayscale opacity-80 transition group-hover:grayscale-0 group-hover:opacity-100"
             loading="lazy"
           />
         )}
 
         <div>
-          <h3 className="font-medium text-brand-navy">{brand.name}</h3>
-          <p className="text-xs text-brand-navy/60">{brand.category}</p>
+          <h3 className="text-sm sm:text-base font-medium text-brand-navy">{brand.name}</h3>
+          <p className="text-[11px] sm:text-xs text-brand-navy/60">{brand.category}</p>
         </div>
       </div>
 
       {/* Description is optional */}
       {brand.description && (
-        <p className="mt-3 line-clamp-3 text-sm text-brand-navy/80">{brand.description}</p>
+        <p className="mt-2 sm:mt-3 line-clamp-3 text-[13px] sm:text-sm text-brand-navy/80">{brand.description}</p>
       )}
 
       {/* Website is optional */}
@@ -215,7 +215,7 @@ function BrandTile({
           href={brand.website}
           target="_blank"
           rel="noreferrer"
-          className="link mt-3 inline-block text-sm text-brand-navy"
+          className="link mt-2 sm:mt-3 inline-block text-[13px] sm:text-sm text-brand-navy"
         >
           Official site →
         </a>
