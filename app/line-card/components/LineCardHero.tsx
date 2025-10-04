@@ -47,14 +47,6 @@ export default function LineCardHero() {
               >
                 Explore brands
               </Link>
-              <a
-                href="/api/linecard-pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-white/30 px-6 py-3 text-white/90 backdrop-blur-sm hover:bg-white/10 transition"
-              >
-                Download PDF
-              </a>
             </div>
           </div>
         </div>

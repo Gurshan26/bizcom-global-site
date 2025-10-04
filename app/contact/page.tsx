@@ -87,6 +87,12 @@ export default function ContactPage() {
                   sales@bizcompl.com
                 </a>
               </div>
+              <div>
+                Landline:{" "}
+                <a className="link text-brand-navy" href="tel:+6563893966">
+                  +65 6389 3966
+                </a>
+              </div>
               <div className="mt-2">
                 <a
                   href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi! I’d like to talk to BizCom.")}`}

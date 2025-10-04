@@ -9,13 +9,14 @@ import MagneticButton from "@/components/MagneticButton";
 import ValueTriplet from "@/components/ValueTriplet";
 import { motion } from "framer-motion";
 
-// existing sections in your repo
+// existing sections already in your repo
 import ServicesGrid from "@/components/ServicesGrid";
 import WhyChoose from "@/components/WhyChoose";
 import IndustriesStrip from "@/components/IndustriesStrip";
 import ContactStrip from "@/components/ContactStrip";
 
-// app/page.tsx (top where your rows are)
+/* ---------------------------- Partner logos ---------------------------- */
+/* Put your /public/logos/*.png|.jpg|.webp files here; update names as needed */
 const brandsRow1 = [
   { src: "/logos/2.webp", alt: "Partner" },
   { src: "/logos/3_infineon (1).webp", alt: "Infineon" },
@@ -42,24 +43,23 @@ const brandsRow3 = [
   { src: "/logos/22.webp", alt: "Partner" },
   { src: "/logos/23.webp", alt: "Partner" },
   { src: "/logos/24.webp", alt: "Partner" },
-  { src: "/logos/gigadives.webp", alt: "GigaDevice" }, // file name shows "gigadives.webp"
+  { src: "/logos/gigadives.webp", alt: "GigaDevice" },
   { src: "/logos/mei.webp", alt: "MEI" },
   { src: "/logos/power.webp", alt: "Power" },
   { src: "/logos/Renesas.jpg", alt: "Renesas" },
   { src: "/logos/telit.webp", alt: "Telit" },
 ];
 
-// keep usage as-is:
-<LogosMarquee items={[brandsRow1, brandsRow2, brandsRow3]} speeds={[28, 32, 36]} />
+/* ====================================================================== */
 
 export default function Page() {
   return (
     <>
-      {/* HERO */}
+      {/* HERO — keep your current video/gradient hero; just updated copy */}
       <ParallaxHero
         eyebrow="BizCom Global"
         headline="Trusted distribution. Global reach."
-        subcopy="From prototypes to programs, we source critical electronics with full traceability and on-time logistics across APAC, EMEA, and the Americas."
+        subcopy="From prototypes to programs, we source critical electronics with full traceability and on‑time logistics across APAC, EMEA, and the Americas."
         primaryCtaHref="/line-card"
         primaryCtaLabel="View Line Card"
         secondaryCtaHref="/contact"
@@ -69,7 +69,7 @@ export default function Page() {
       {/* MOVING BRAND STRIP */}
       <LogosMarquee items={[brandsRow1, brandsRow2, brandsRow3]} speeds={[28, 32, 36]} />
 
-      {/* DECORATIVE MESH + QUICK VALUE STRIP */}
+      {/* QUICK VALUES — subtle mesh background so the page isn’t all-white */}
       <section aria-hidden className="relative isolate full-bleed overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(55rem_40rem_at_-10%_20%,rgba(201,162,39,0.12),transparent),radial-gradient(60rem_45rem_at_110%_0%,rgba(15,40,73,0.06),transparent)]" />
         <div className="container-page relative py-10">
@@ -77,7 +77,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ABOUT PREVIEW */}
+      {/* ABOUT SNAPSHOT + STATS */}
       <section id="about" className="section">
         <div className="container-page grid gap-8 lg:grid-cols-2">
           <div>
@@ -85,11 +85,11 @@ export default function Page() {
             <h2 className="h2">Component distribution built for manufacturing teams</h2>
             <p className="mt-3 text-brand-navy/80">
               BizCom Global Pte Ltd supports OEMs and CEMs with sourcing, QA, and logistics that
-              keep builds on schedule. We combine engineering-led part selection with a disciplined
-              anti-counterfeit workflow and global supplier coverage.
+              keep builds on schedule. We combine engineering‑led part selection with a disciplined
+              anti‑counterfeit workflow and global supplier coverage.
             </p>
             <ul className="mt-4 space-y-2 text-brand-navy/80">
-              <li>• Engineering-first sourcing, not just part numbers</li>
+              <li>• Engineering‑first sourcing, not just part numbers</li>
               <li>• Documented traceability from quote to delivery</li>
               <li>• Program logistics: kitting, VMI, scheduled deliveries</li>
               <li>• Coverage across APAC, EMEA, and the Americas</li>
@@ -97,7 +97,7 @@ export default function Page() {
 
             <div className="mt-6 flex gap-3">
               <Link href="/about" className="link">Learn more about BizCom →</Link>
-              <Link href="/mission" className="link">Quality & standards →</Link>
+              <Link href="/mission" className="link">Quality &amp; standards →</Link>
             </div>
           </div>
 
@@ -107,13 +107,13 @@ export default function Page() {
               <Stat k="12k+" v="Parts sourced / year" />
               <Stat k="30+"  v="Core brands covered" />
               <Stat k="3"    v="Regions supported (APAC / EMEA / AMER)" />
-              <Stat k="<24h" v="Typical quote response" />
+              <Stat k="&lt;24h" v="Typical quote response" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* WHAT WE SUPPLY (your existing grid) */}
+      {/* WHAT WE SUPPLY */}
       <section id="products" className="section">
         <div className="container-page">
           <div className="eyebrow">Our products</div>
@@ -121,20 +121,19 @@ export default function Page() {
         </div>
       </section>
 
-
       {/* PROGRAMS / SERVICES STRIP */}
       <section id="programs" className="section">
         <div className="container-page">
-          <h2 className="h2">Sourcing programs & logistics</h2>
+          <h2 className="h2">Sourcing programs &amp; logistics</h2>
           <p className="mt-3 max-w-prose text-brand-navy/80">
-            Beyond spot buys, we design programs around your build plan and cash-flow constraints.
+            Beyond spot buys, we design programs around your build plan and cash‑flow constraints.
           </p>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <Program name="Planned buys" body="Time-phased POs with secure allocation and pricing."/>
-            <Program name="Kitting & VMI" body="Line-item kitting, consignment, or vendor-managed inventory."/>
-            <Program name="L-T-B planning" body="Last-time-buy strategy and lifecycle risk mitigation."/>
-            <Program name="Alternates & X-ref" body="Engineering cross-refs and second-source options."/>
+            <Program name="Planned buys" body="Time‑phased POs with secure allocation and pricing."/>
+            <Program name="Kitting &amp; VMI" body="Line‑item kitting, consignment, or vendor‑managed inventory."/>
+            <Program name="L‑T‑B planning" body="Last‑time‑buy strategy and lifecycle risk mitigation."/>
+            <Program name="Alternates &amp; X‑ref" body="Engineering cross‑refs and second‑source options."/>
           </div>
 
           <div className="mt-6">
@@ -143,7 +142,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* WHY CHOOSE US (existing) */}
+      {/* WHY CHOOSE US */}
       <section id="why" className="section relative isolate">
         <div
           aria-hidden
@@ -155,7 +154,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* QUALITY / ANTI-COUNTERFEIT PREVIEW */}
+      {/* QUALITY / FOOTPRINT PREVIEW */}
       <section id="quality" className="section relative isolate">
         {/* dotted grid texture */}
         <svg className="pointer-events-none absolute inset-0 opacity-[0.08]" viewBox="0 0 400 200" aria-hidden>
@@ -168,17 +167,17 @@ export default function Page() {
         </svg>
         <div className="container-page grid items-start gap-8 lg:grid-cols-2 relative">
           <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="eyebrow">Quality & compliance</div>
-            <h3 className="h2">Traceability & anti-counterfeit controls</h3>
+            <div className="eyebrow">Quality &amp; compliance</div>
+            <h3 className="h2">Traceability &amp; anti‑counterfeit controls</h3>
             <p className="mt-3 text-brand-navy/80">
               Every part is vetted against a documented QA workflow. Inspection, photos, and
               paperwork are available from quote to delivery.
             </p>
             <ul className="mt-4 space-y-2 text-brand-navy/80">
-              <li>• Vendor vetting & supplier scorecards</li>
+              <li>• Vendor vetting &amp; supplier scorecards</li>
               <li>• COFC / test reports on request</li>
-              <li>• ESD handling & moisture control</li>
-              <li>• Chain-of-custody documentation</li>
+              <li>• ESD handling &amp; moisture control</li>
+              <li>• Chain‑of‑custody documentation</li>
             </ul>
             <Link href="/mission" className="link mt-5 inline-block">See our standards →</Link>
           </div>
@@ -188,19 +187,28 @@ export default function Page() {
             <h3 className="h2">Global coverage, local response</h3>
             <ul className="mt-3 space-y-2 text-brand-navy/80">
               <li>• Head office: Singapore</li>
-              <li>• APAC sourcing & consolidation hubs</li>
-              <li>• EMEA & AMER partner warehouses</li>
-              <li>• Courier, air-freight, and scheduled lanes</li>
+              <li>• APAC sourcing &amp; consolidation hubs</li>
+              <li>• EMEA &amp; AMER partner warehouses</li>
+              <li>• Courier, air‑freight, and scheduled lanes</li>
             </ul>
-            <Link href="/contact" className="link mt-5 inline-block">Arrange shipping & lanes →</Link>
+            <Link href="/contact" className="link mt-5 inline-block">Arrange shipping &amp; lanes →</Link>
           </div>
         </div>
       </section>
 
-      {/* FEATURE ROWS (keep your existing imagery) */}
+      {/* VISUAL STRIP (use placeholders; swap with real images later) */}
+      <section className="section">
+        <div className="container-page grid gap-4 md:grid-cols-3">
+          <VisualCard src="/images/placeholder-1.jpg" caption="APAC to EMEA consolidation lanes" />
+          <VisualPattern caption="ESD handling &amp; MSL controls" />
+          <VisualCard src="/images/placeholder-2.jpg" caption="Program logistics &amp; kitting" />
+        </div>
+      </section>
+
+      {/* FEATURE ROWS (imagery you already added) */}
       <FeatureRow
         title="Program sourcing beyond spot buys"
-        body="We design sourcing programs around your build plan—kitting, scheduled deliveries, and last-time-buy planning included."
+        body="We design sourcing programs around your build plan—kitting, scheduled deliveries, and last‑time‑buy planning included."
         cta={{ href: "/contact", label: "Discuss a program" }}
         imageSrc="/images/program-sourcing.jpg"
         imageAlt="Program kitting and scheduled deliveries"
@@ -208,7 +216,7 @@ export default function Page() {
       <FeatureRow
         reverse
         title="Traceability throughout the order"
-        body="Inspection photos, labeling, and documentation are available on request for complete chain-of-custody."
+        body="Inspection photos, labeling, and documentation are available on request for complete chain‑of‑custody."
         cta={{ href: "/mission", label: "See our QA checklist" }}
         imageSrc="/images/traceability.jpg"
         imageAlt="Technician inspecting components"
@@ -239,7 +247,7 @@ export default function Page() {
         <div className="container-page">
           <div className="eyebrow">FAQ</div>
           <div className="grid gap-4 md:grid-cols-3">
-            <Faq q="Do you handle alternates / cross-refs?" a="Yes—our engineering team proposes second-sources and risk-reduced alternates aligned to your build spec."/>
+            <Faq q="Do you handle alternates / cross‑refs?" a="Yes—our engineering team proposes second‑sources and risk‑reduced alternates aligned to your build spec."/>
             <Faq q="Can you support scheduled deliveries?" a="Absolutely. We’ll phase deliveries to sites and build dates, with kitting and labeling as needed."/>
             <Faq q="What documentation is provided?" a="COFC, test reports, photos, and packing evidence are available on request per order or program."/>
           </div>

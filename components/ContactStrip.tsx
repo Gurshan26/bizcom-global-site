@@ -18,7 +18,7 @@ export default function ContactStrip() {
               </p>
               <p className="mt-3 text-brand-navy/80">
                 Email: <a className="link" href="mailto:sales@bizcompl.com">sales@bizcompl.com</a><br />
-                Phone: +65 9023317
+                Phone: +65 63893966
               </p>
             </div>
 

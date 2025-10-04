@@ -7,6 +7,9 @@ export default function Footer() {
             <div className="font-heading text-brand-navy">BizCom Global Pte Ltd</div>
             <div className="mt-2">10 Jalan Besar #06-03 Sim Lim Tower<br/>Singapore 208787</div>
             <div className="mt-2"><a className="link" href="mailto:sales@bizcompl.com">sales@bizcompl.com</a></div>
+            <div className="mt-2">
+              Tel: <a className="link" href="tel:+6563893966">+65 6389 3966</a>
+            </div>
           </div>
           <div className="sm:text-right">
             <a className="link mr-4" href="/line-card">Line Card</a>
