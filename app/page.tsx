@@ -7,7 +7,6 @@ import LogosMarquee from "@/components/LogosMarquee";
 import FeatureRow from "@/components/FeatureRow";
 import MagneticButton from "@/components/MagneticButton";
 import ValueTriplet from "@/components/ValueTriplet";
-import { motion } from "framer-motion";
 
 // existing sections already in your repo
 import ServicesGrid from "@/components/ServicesGrid";
@@ -196,15 +195,6 @@ export default function Page() {
         </div>
       </section>
 
-      {/* VISUAL STRIP (use placeholders; swap with real images later) */}
-      <section className="section">
-        <div className="container-page grid gap-4 md:grid-cols-3">
-          <VisualCard src="/images/placeholder-1.jpg" caption="APAC to EMEA consolidation lanes" />
-          <VisualPattern caption="ESD handling &amp; MSL controls" />
-          <VisualCard src="/images/placeholder-2.jpg" caption="Program logistics &amp; kitting" />
-        </div>
-      </section>
-
       {/* FEATURE ROWS (imagery you already added) */}
       <FeatureRow
         title="Program sourcing beyond spot buys"
@@ -286,45 +276,5 @@ function Faq({ q, a }: { q: string; a: string }) {
       <h4 className="font-medium text-brand-navy">{q}</h4>
       <p className="mt-2 text-sm text-brand-navy/75">{a}</p>
     </div>
-  );
-}
-
-function VisualCard({ src, caption }: { src: string; caption: string }) {
-  return (
-    <motion.figure
-      initial={{ opacity: 0, y: 18, scale: 0.98 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-      className="relative aspect-[16/10] overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm"
-    >
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${src})` }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/10 to-transparent" />
-      <figcaption className="absolute bottom-3 left-4 right-4 text-white drop-shadow">
-        <span className="text-sm/5 font-medium">{caption}</span>
-      </figcaption>
-    </motion.figure>
-  );
-}
-
-function VisualPattern({ caption }: { caption: string }) {
-  return (
-    <motion.figure
-      initial={{ opacity: 0, y: 18, scale: 0.98 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
-      className="relative aspect-[16/10] overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm"
-    >
-      {/* techy lines pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,40,73,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,40,73,0.08)_1px,transparent_1px)] bg-[size:22px_22px]" />
-      <div className="absolute inset-0 bg-[radial-gradient(40rem_30rem_at_-10%_120%,rgba(201,162,39,0.18),transparent)]" />
-      <figcaption className="absolute bottom-3 left-4 right-4 text-brand-navy">
-        <span className="text-sm/5 font-medium">{caption}</span>
-      </figcaption>
-    </motion.figure>
   );
 }

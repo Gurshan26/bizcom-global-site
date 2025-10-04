@@ -1,4 +1,4 @@
-export const metadata = { title: "About BizCom Global" };
+export const metadata = { title: "About Us" };
 
 import AboutHero from "./components/AboutHero";
 import StatsRow from "./components/StatsRow";

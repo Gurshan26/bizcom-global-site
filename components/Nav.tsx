@@ -15,7 +15,15 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-40 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-header">
       <div className="container-page h-16 flex items-center justify-between">
-        <Link href="/" className="font-display text-xl text-brand-navy">BizCom Global</Link>
+        <Link href="/" className="flex items-center gap-2" aria-label="BizCom Global — Home">
+            <img
+              src="/logo.svg"          
+              alt="BizCom Global"
+              className="h-7 w-auto"    
+              loading="eager"           
+              decoding="async"
+            />
+          </Link>
         <nav className="flex items-center gap-6 text-[15px]">
           {items.map(i => {
             const active = pathname === i.href;

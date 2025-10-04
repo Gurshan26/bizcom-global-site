@@ -55,10 +55,17 @@ export default function ParallaxHero({
 
       {/* 3 — Content */}
       <div className="relative z-30 mx-auto flex h-full max-w-7xl flex-col items-center justify-center px-6 text-center">
-        {eyebrow && <span className="eyebrow text-white/80">{eyebrow}</span>}
+        {/* Brand lockup — white SVG with soft shadow (no pill) */}
+        <div className="relative mb-5">
+          <img
+            src="/logo-white.svg"
+            alt="BizCom Global"
+            className="h-16 sm:h-20 md:h-24 w-auto [filter:drop-shadow(0_6px_22px_rgba(0,0,0,.55))] opacity-95"
+          />
+        </div>
         <AnimatedHeadline text={headline} />
         {subcopy && (
-          <p className="mt-5 max-w-2xl text-balance text-white/85">{subcopy}</p>
+          <p className="mt-5 max-w-2xl text-balance text-white/90 drop-shadow-[0_3px_14px_rgba(0,0,0,.5)]">{subcopy}</p>
         )}
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
           {primaryCtaHref && primaryCtaLabel && (

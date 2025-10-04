@@ -2,7 +2,6 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ProgressBar from "@/components/ProgressBar";
-import WhatsAppFab from "@/components/WhatsAppFab"; 
 import { Inter, Montserrat, Playfair_Display } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -27,7 +26,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
 
         <Footer />
-         <WhatsAppFab />
       </body>
     </html>
   );
