@@ -67,7 +67,27 @@ export default function MissionPage() {
             The standards that guide every sourcing engagement and program partnership.
           </p>
 
-          <PillarsMosaic pillars={pillars} />
+          {/* Mobile: stacked cards with light reveal animation (no horizontal scroll) */}
+          <div className="mt-6 space-y-4 sm:hidden">
+            {pillars.map((p, i) => (
+              <Reveal key={p.title}>
+                <article className="relative overflow-hidden rounded-2xl border border-black/10 bg-white/95 p-5 shadow-sm">
+                  <div className="mb-2 flex items-center gap-3">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-black/10 bg-white text-sm font-semibold text-brand-navy">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="text-lg font-semibold text-brand-navy">{p.title}</h3>
+                  </div>
+                  <p className="text-sm leading-relaxed text-brand-navy/75">{p.body}</p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* Desktop & tablets: keep animated mosaic with horizontal interactions */}
+          <div className="hidden sm:block">
+            <PillarsMosaic pillars={pillars} />
+          </div>
         </div>
       </section>
 
