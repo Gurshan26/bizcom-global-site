@@ -4,15 +4,11 @@ export default function Footer() {
       <div className="container-page py-10 text-sm text-brand-navy/80">
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
-            <div className="flex items-center gap-2">
-              <img
-                src="/logo.svg"               // or /logo-white.svg if your footer background is dark
-                alt="BizCom Global"
-                className="h-6 w-auto"
-                loading="lazy"
-                decoding="async"
-              />
-              <span className="sr-only">BizCom Global Pte Ltd</span>
+            <div className="flex flex-wrap items-end gap-2 text-lg font-semibold tracking-wide" aria-label="BizCom Global Pte Ltd">
+              <span className="text-brand-navy">BizCom</span>
+              <span className="text-brand-gold">Global</span>
+              <span className="text-brand-navy">Pte</span>
+              <span className="text-brand-navy">Ltd</span>
             </div>
             <div className="mt-2">10 Jalan Besar #06-03 Sim Lim Tower<br/>Singapore 208787</div>
             <div className="mt-2"><a className="link" href="mailto:sales@bizcompl.com">sales@bizcompl.com</a></div>
@@ -26,7 +22,7 @@ export default function Footer() {
             <a className="link" href="/contact">Contact</a>
           </div>
         </div>
-        <div className="mt-6 text-xs opacity-70">© {new Date().getFullYear()} BizCom Global. All rights reserved.</div>
+        <div className="mt-6 text-xs opacity-70">© {new Date().getFullYear()} BizCom Global Pte Ltd. All rights reserved.</div>
       </div>
     </footer>
   );
